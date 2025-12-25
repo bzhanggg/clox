@@ -10,6 +10,8 @@ enum class OpCode {
     OP_RETURN
 };
 
+using Chunk = std::vector<uint8_t>;
+
 }
 }
 
