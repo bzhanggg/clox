@@ -1,4 +1,4 @@
-add_subdirectory(common)
+add_subdirectory(lib)
 
 add_executable(clox main.cpp)
 
