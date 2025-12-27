@@ -6,13 +6,12 @@ using namespace clox;
 int main(int argc, const char* argv[]) {
     Chunk chunk;
 
-    const int constant = chunk.addConstant(1.2);
-    chunk.writeChunk(OP_CONSTANT);
-    chunk.writeChunk(constant);
+    chunk.writeConstant(1.23, 123);
+    chunk.writeConstant(2.56, 123);
 
-    chunk.writeChunk(OP_RETURN);
+    chunk.writeChunk(OP_RETURN, 123);
 
     debug::Disassembler::disassembleChunk(chunk, "test chunk");
-        
+
     return 0;
 }

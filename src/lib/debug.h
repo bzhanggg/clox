@@ -17,6 +17,8 @@ private:
   static int simpleInstruction(const std::string &instrName, const int offset);
   static int constantInstruction(const std::string &instrName,
                                  const Chunk &chunk, const int offset);
+  static int constantLongInstruction(const std::string &instrName,
+                                     const Chunk &chunk, const int offset);
 };
 
 } // namespace debug
