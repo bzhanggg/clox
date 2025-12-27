@@ -9,16 +9,31 @@ void Chunk::writeChunk(const uint8_t byte, const int lineNumber) {
   }
 }
 
+int Chunk::getLine(const int offset) const {
+  for (int i = lines.size() - 1; i >= 0; --i) {
+    if (lines[i].offset <= offset)
+      return lines[i].lineNum;
+  }
+  return 1;
+}
+
 int Chunk::addConstant(const Value value) {
   constants.emplace_back(value);
   return constants.size() - 1;
 }
 
-int Chunk::getLine(const int offset) const {
-  for (int i = lines.size() -1; i >= 0; --i) {
-    if (lines[i].offset <= offset) return lines[i].lineNum;
+void Chunk::writeConstant(const Value value, const int line) {
+  const int index = addConstant(value);
+
+  if (index < 256) {
+    writeChunk(OP_CONSTANT, line);
+    writeChunk(index, line);
+    return;
   }
-  return 1;
+  writeChunk(OP_CONSTANT_LONG, line);
+  writeChunk((index >> 16) & 0xFF, line);
+  writeChunk((index >> 8) & 0xFF, line);
+  writeChunk((index) & 0xFF, line);
 }
 
 } // namespace clox
