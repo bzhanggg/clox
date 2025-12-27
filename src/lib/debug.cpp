@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "value.h"
 
 #include <cstdint>
 #include <print>
@@ -17,6 +18,12 @@ void Disassembler::disassembleChunk(const Chunk &chunk,
 
 int Disassembler::disassembleInstruction(const Chunk &chunk, const int offset) {
   std::print("{:04d} ", offset);
+  if (offset > 0 && chunk.getLine(offset) == chunk.getLine(offset - 1)) {
+    std::print("   | ");
+  }
+  else {
+    std::print("{:4d} ", chunk.getLine(offset));
+  }
 
   uint8_t instruction = chunk.code[offset];
   switch (instruction) {
@@ -39,7 +46,7 @@ int Disassembler::simpleInstruction(const std::string &instrName,
 int Disassembler::constantInstruction(const std::string &instrName,
                                       const Chunk &chunk, const int offset) {
   uint8_t constant = chunk.code[offset + 1];
-  std::print("{:<16} {:4} '", instrName, constant);
+  std::print("{:<16} {:4d} '", instrName, constant);
   printValue(chunk.constants[constant]);
   std::print("'\n");
   return offset + 2;

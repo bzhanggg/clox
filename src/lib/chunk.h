@@ -10,11 +10,25 @@ namespace clox {
 
 enum OpCode { OP_CONSTANT, OP_RETURN };
 
+struct LineInfo {
+  int offset;
+  int lineNum;
+};
+
 struct Chunk {
+
+  Chunk() = default;
+  ~Chunk() = default;
+
   /**
    * @brief Adds raw bytes to the bytecode chunk
    */
-  void writeChunk(const uint8_t byte);
+  void writeChunk(const uint8_t byte, const int lineNumber);
+
+  /**
+   * @brief finds the line number of a bytecode op given its offset in the code
+   */
+  int getLine(const int offset) const;
 
   /**
    * @brief Adds a constant to the bytecode chunk
@@ -25,6 +39,7 @@ struct Chunk {
   int addConstant(const Value value);
 
   std::vector<uint8_t> code;
+  std::vector<LineInfo> lines;
   std::vector<Value> constants;
 };
 
