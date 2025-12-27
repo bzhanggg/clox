@@ -1,27 +1,33 @@
 #ifndef CLOX_CHUNK_H_
 #define CLOX_CHUNK_H_
 
+#include "value.h"
+
 #include <cstdint>
 #include <vector>
 
 namespace clox {
 
-enum OpCode { OP_RETURN };
+enum OpCode { OP_CONSTANT, OP_RETURN };
 
-using Chunk = std::vector<uint8_t>;
+struct Chunk {
+  /**
+   * @brief Adds raw bytes to the bytecode chunk
+   */
+  void writeChunk(const uint8_t byte);
 
-namespace lib {
+  /**
+   * @brief Adds a constant to the bytecode chunk
+   *
+   * @param value the constant to be added
+   * @return int the index at which the constant was added
+   */
+  int addConstant(const Value value);
 
-class Disassembler {
-public:
-  static void disassembleChunk(const Chunk &chunk, const std::string &name);
-  static int disassembleInstruction(const Chunk &chunk, int offset);
-
-private:
-  static int simpleInstruction(const std::string &instrName, int offset);
+  std::vector<uint8_t> code;
+  std::vector<Value> constants;
 };
 
-} // namespace lib
 } // namespace clox
 
 #endif // CLOX_CHUNK_H_
