@@ -8,7 +8,7 @@
 
 namespace clox {
 
-enum OpCode { OP_CONSTANT, OP_CONSTANT_LONG, OP_RETURN };
+enum OpCode { OP_CONSTANT, OP_CONSTANT_LONG, OP_ADD, OP_SUBTRACT, OP_MULTIPLY, OP_DIVIDE, OP_NEGATE, OP_RETURN };
 
 struct LineInfo {
   int offset;
@@ -43,7 +43,6 @@ struct Chunk {
   std::vector<Value> constants;
 
 private:
-
   /**
    * @brief Adds a constant to the bytecode chunk
    *

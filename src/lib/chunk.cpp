@@ -26,11 +26,11 @@ void Chunk::writeConstant(const Value value, const int line) {
   const int index = addConstant(value);
 
   if (index < 256) {
-    writeChunk(OP_CONSTANT, line);
+    writeChunk(OpCode::OP_CONSTANT, line);
     writeChunk(index, line);
     return;
   }
-  writeChunk(OP_CONSTANT_LONG, line);
+  writeChunk(OpCode::OP_CONSTANT_LONG, line);
   writeChunk((index >> 16) & 0xFF, line);
   writeChunk((index >> 8) & 0xFF, line);
   writeChunk((index) & 0xFF, line);
