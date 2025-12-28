@@ -8,7 +8,7 @@
 
 namespace clox {
 
-enum OpCode { OP_CONSTANT, OP_CONSTANT_LONG, OP_RETURN };
+enum OpCode { OP_CONSTANT, OP_CONSTANT_LONG, OP_NEGATE, OP_RETURN };
 
 struct LineInfo {
   int offset;

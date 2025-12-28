@@ -31,17 +31,23 @@ const InterpretResult VM::run() {
 #endif // DEBUG_TRACE_EXECUTION
     uint8_t instruction;
     switch (instruction = READ_BYTE()) {
-    case OP_CONSTANT: {
+    case OpCode::OP_CONSTANT: {
       const Value constant = READ_CONSTANT();
       stack.emplace_back(constant);
       break;
     }
-    case OP_CONSTANT_LONG: {
+    case OpCode::OP_CONSTANT_LONG: {
       const Value longConstant = READ_CONSTANT_LONG();
       stack.emplace_back(longConstant);
       break;
     }
-    case OP_RETURN: {
+    case OpCode::OP_NEGATE: {
+      const Value negated = -stack.back();
+      stack.pop_back();
+      stack.emplace_back(negated);
+      break;
+    }
+    case OpCode::OP_RETURN: {
       printValue(stack.back());
       stack.pop_back();
       std::print("\n");
