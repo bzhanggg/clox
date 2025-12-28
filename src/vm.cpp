@@ -8,6 +8,7 @@
 #endif
 
 #include <cstdint>
+#include <print>
 
 namespace clox {
 
@@ -29,10 +30,15 @@ const InterpretResult VM::run() {
         chunk, static_cast<int>(ip - chunk.code.data()));
 #endif // DEBUG_TRACE_EXECUTION
     uint8_t instruction;
-    switch (instruction = read_byte()) {
+    switch (instruction = READ_BYTE()) {
     case OP_CONSTANT: {
-      Value constant = read_constant();
+      const Value constant = READ_CONSTANT();
       stack.emplace_back(constant);
+      break;
+    }
+    case OP_CONSTANT_LONG: {
+      const Value longConstant = READ_CONSTANT_LONG();
+      stack.emplace_back(longConstant);
       break;
     }
     case OP_RETURN: {
@@ -45,8 +51,16 @@ const InterpretResult VM::run() {
   }
 }
 
-inline const uint8_t VM::read_byte() { return *ip++; }
+inline const uint8_t VM::READ_BYTE() { return *ip++; }
 
-inline const double VM::read_constant() { return chunk.constants[read_byte()]; }
+inline const double VM::READ_CONSTANT() { return chunk.constants[READ_BYTE()]; }
+
+inline const double VM::READ_CONSTANT_LONG() {
+  uint8_t byte1 = READ_BYTE();
+  uint8_t byte2 = READ_BYTE();
+  uint8_t byte3 = READ_BYTE();
+  size_t index = (byte1 << 16) | (byte2 << 8) | byte3;
+  return chunk.constants[index];
+}
 
 } // namespace clox

@@ -3,7 +3,7 @@
 
 #include "chunk.h"
 
-#include <stack>
+#include <vector>
 
 namespace clox {
 
@@ -23,8 +23,9 @@ public:
 private:
   const InterpretResult run();
 
-  inline const uint8_t read_byte();
-  inline const double read_constant();
+  inline const uint8_t READ_BYTE();
+  inline const double READ_CONSTANT();
+  inline const double READ_CONSTANT_LONG();
 
   const Chunk &chunk;
   const uint8_t *ip; // points to the next instruction to be executed

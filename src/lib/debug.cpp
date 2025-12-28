@@ -46,7 +46,7 @@ int Disassembler::simpleInstruction(const std::string &instrName,
 
 int Disassembler::constantInstruction(const std::string &instrName,
                                       const Chunk &chunk, const int offset) {
-  uint8_t index = chunk.code[offset + 1];
+  size_t index = chunk.code[offset + 1];
   std::print("{:<16} {:4d} '", instrName, index);
   printValue(chunk.constants[index]);
   std::print("'\n");
@@ -59,7 +59,7 @@ int Disassembler::constantLongInstruction(const std::string &instrName,
   uint8_t byte1 = chunk.code[offset + 1];
   uint8_t byte2 = chunk.code[offset + 2];
   uint8_t byte3 = chunk.code[offset + 3];
-  int index = (byte1 << 16) | (byte2 << 8) | byte3;
+  size_t index = (byte1 << 16) | (byte2 << 8) | byte3;
   std::print("{:<16} {:4d} '", instrName, index);
   printValue(chunk.constants[index]);
   std::print("'\n");
