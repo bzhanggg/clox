@@ -43,7 +43,6 @@ struct Chunk {
   std::vector<Value> constants;
 
 private:
-
   /**
    * @brief Adds a constant to the bytecode chunk
    *
