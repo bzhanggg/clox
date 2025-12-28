@@ -2,6 +2,7 @@
 #define CLOX_VM_H_
 
 #include "chunk.h"
+#include "compiler.h"
 
 #include <vector>
 
@@ -18,7 +19,9 @@ public:
   VM() = delete;
   VM(const Chunk &chunk);
 
-  const InterpretResult interpret();
+  void repl();
+  void runFile(const std::string& fpath);
+  const InterpretResult interpret(const std::string& source);
 
 private:
   const InterpretResult run();
@@ -26,6 +29,7 @@ private:
   const Chunk &chunk;
   const uint8_t *ip; // points to the next instruction to be executed
   std::vector<Value> stack;
+  Compiler compiler;
 
 private:
   inline const uint8_t READ_BYTE();
