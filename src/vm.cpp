@@ -42,9 +42,7 @@ const InterpretResult VM::run() {
       break;
     }
     case OpCode::OP_NEGATE: {
-      const Value negated = -stack.back();
-      stack.pop_back();
-      stack.emplace_back(negated);
+      stack.back() = -stack.back();
       break;
     }
     case OpCode::OP_ADD: {
