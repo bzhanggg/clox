@@ -3,6 +3,8 @@
 
 #include "chunk.h"
 
+#include <stack>
+
 namespace clox {
 
 enum InterpretResult {
@@ -25,8 +27,8 @@ private:
   inline const double read_constant();
 
   const Chunk &chunk;
-  const uint8_t
-      *ip; // instruction ptr points to the next instruction to be executed
+  const uint8_t *ip; // points to the next instruction to be executed
+  std::vector<Value> stack;
 };
 
 } // namespace clox
