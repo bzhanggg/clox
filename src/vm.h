@@ -37,11 +37,10 @@ private:
   inline void BINARY_OP_DIV();
 
   template <typename Op> inline void binaryOp(Op operation) {
-    double b = stack.back();
+    const double b = stack.back();
     stack.pop_back();
-    double a = stack.back();
-    stack.pop_back();
-    stack.emplace_back(operation(a, b));
+    const double a = stack.back();
+    stack.back() = operation(a, b);
   }
 };
 
