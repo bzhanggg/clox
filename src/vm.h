@@ -23,13 +23,26 @@ public:
 private:
   const InterpretResult run();
 
-  inline const uint8_t READ_BYTE();
-  inline const double READ_CONSTANT();
-  inline const double READ_CONSTANT_LONG();
-
   const Chunk &chunk;
   const uint8_t *ip; // points to the next instruction to be executed
   std::vector<Value> stack;
+
+private:
+  inline const uint8_t READ_BYTE();
+  inline const double READ_CONSTANT();
+  inline const double READ_CONSTANT_LONG();
+  inline void BINARY_OP_ADD();
+  inline void BINARY_OP_SUB();
+  inline void BINARY_OP_MUL();
+  inline void BINARY_OP_DIV();
+
+  template <typename Op> inline void binaryOp(Op operation) {
+    double b = stack.back();
+    stack.pop_back();
+    double a = stack.back();
+    stack.pop_back();
+    stack.emplace_back(operation(a, b));
+  }
 };
 
 } // namespace clox

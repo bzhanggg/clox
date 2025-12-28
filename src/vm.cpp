@@ -47,6 +47,22 @@ const InterpretResult VM::run() {
       stack.emplace_back(negated);
       break;
     }
+    case OpCode::OP_ADD: {
+      BINARY_OP_ADD();
+      break;
+    }
+    case OpCode::OP_SUBTRACT: {
+      BINARY_OP_SUB();
+      break;
+    }
+    case OpCode::OP_MULTIPLY: {
+      BINARY_OP_MUL();
+      break;
+    }
+    case OpCode::OP_DIVIDE: {
+      BINARY_OP_DIV();
+      break;
+    }
     case OpCode::OP_RETURN: {
       printValue(stack.back());
       stack.pop_back();
@@ -67,6 +83,22 @@ inline const double VM::READ_CONSTANT_LONG() {
   uint8_t byte3 = READ_BYTE();
   size_t index = (byte1 << 16) | (byte2 << 8) | byte3;
   return chunk.constants[index];
+}
+
+inline void VM::BINARY_OP_ADD() {
+  binaryOp([](double a, double b) { return a + b; });
+}
+
+inline void VM::BINARY_OP_SUB() {
+  binaryOp([](double a, double b) { return a - b; });
+}
+
+inline void VM::BINARY_OP_MUL() {
+  binaryOp([](double a, double b) { return a * b; });
+}
+
+inline void VM::BINARY_OP_DIV() {
+  binaryOp([](double a, double b) { return a / b; });
 }
 
 } // namespace clox
