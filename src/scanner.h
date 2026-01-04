@@ -69,11 +69,14 @@ public:
   Scanner(const std::string &source);
 
   void scan();
-  Token scanToken();
+  const Token scanToken();
 
 private:
-  bool isAtEnd();
-  Token makeToken();
+  const bool isAtEnd() const;
+  const Token makeToken(const TokenType type) const;
+  const char advance();
+  const bool match(char expected);
+  void skipWhitespace();
 
 private:
   const std::string &source;

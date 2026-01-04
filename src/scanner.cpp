@@ -30,17 +30,78 @@ void Scanner::scan() {
   }
 }
 
-Token Scanner::scanToken() {
+const Token Scanner::scanToken() {
+  skipWhitespace();
   start = current;
 
   if (isAtEnd()) {
-    return Token{TokenType::e_EOF, start, static_cast<size_t>(current - start),
-                 line};
+    makeToken(TokenType::e_EOF);
+  }
+
+  char c = advance();
+
+  switch(c) {
+    case '(': return makeToken(TokenType::e_LEFT_PAREN);
+    case ')': return makeToken(TokenType::e_RIGHT_PAREN);
+    case '{': return makeToken(TokenType::e_LEFT_BRACE);
+    case '}': return makeToken(TokenType::e_RIGHT_BRACE);
+    case ';': return makeToken(TokenType::e_SEMICOLON);
+    case ',': return makeToken(TokenType::e_COMMA);
+    case '.': return makeToken(TokenType::e_DOT);
+    case '-': return makeToken(TokenType::e_MINUS);
+    case '+': return makeToken(TokenType::e_PLUS);
+    case '/': return makeToken(TokenType::e_SLASH);
+    case '*': return makeToken(TokenType::e_STAR);
+    case '!':
+      return makeToken(
+          match('=') ? TokenType::e_BANG_EQUAL : TokenType::e_BANG);
+    case '=':
+      return makeToken(
+          match('=') ? TokenType::e_EQUAL_EQUAL : TokenType::e_EQUAL);
+    case '<':
+      return makeToken(
+          match('=') ? TokenType::e_LESS_EQUAL : TokenType::e_LESS);
+    case '>':
+      return makeToken(
+          match('=') ? TokenType::e_GREATER_EQUAL : TokenType::e_GREATER);
+    case '\n':
+
   }
 
   return ErrorToken("Unexpected character.", line);
 }
 
-bool Scanner::isAtEnd() { return *current == '\0'; }
+const bool Scanner::isAtEnd() const { return *current == '\0'; }
+
+const Token Scanner::makeToken(const TokenType type) const {
+  return Token{type, start, static_cast<size_t>(current - start), line};
+}
+
+const char Scanner::advance() {
+  current++;
+  return current[-1];
+}
+
+const bool Scanner::match(char expected) {
+  if (isAtEnd()) return false;
+  if (*current != expected) return false;
+  current++;
+  return true;
+}
+
+// TODO: redo this starting from https://craftinginterpreters.com/scanning-on-demand.html#whitespace
+void Scanner::skipWhitespace() {
+  while (std::isspace(*current) || *current == '/') {
+    if (*current == '/' && *(current++) == '/') {
+      while (*current != '\n' && !isAtEnd()) current++;
+    } else {
+      return;
+    }
+    if (*current == '\n') {
+      line++;
+    }
+    current++;
+  }
+}
 
 } // namespace clox
