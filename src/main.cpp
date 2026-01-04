@@ -22,7 +22,7 @@ int main(int argc, const char *argv[]) {
   if (argc == 1) {
     vm.repl();
   } else if (argc == 2) {
-    runFile(argv[1]);
+    vm.runFile(argv[1]);
   } else {
     std::cerr << "Usage: clox [path]\n" << std::endl;
     exit(64);

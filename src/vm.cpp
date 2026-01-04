@@ -43,7 +43,7 @@ void VM::runFile(const std::string& fpath) {
 }
 
 const InterpretResult VM::interpret(const std::string& source) {
-  compile(source);
+  compiler.compile(source);
   return INTERPRET_OK;
 }
 

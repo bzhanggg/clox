@@ -6,19 +6,19 @@
 namespace clox {
 
 enum class TokenType {
-  // Single-character tokens.
+  // Single-character tokens
   e_LEFT_PAREN, e_RIGHT_PAREN,
   e_LEFT_BRACE, e_RIGHT_BRACE,
   e_COMMA, e_DOT, e_MINUS, e_PLUS,
   e_SEMICOLON, e_SLASH, e_STAR,
-  // One or two character tokens.
+  // One or two character tokens
   e_BANG, e_BANG_EQUAL,
   e_EQUAL, e_EQUAL_EQUAL,
   e_GREATER, e_GREATER_EQUAL,
   e_LESS, e_LESS_EQUAL,
-  // Literals.
+  // Literals
   e_IDENTIFIER, e_STRING, e_NUMBER,
-  // Keywords.
+  // Keywords
   e_AND, e_CLASS, e_ELSE, e_FALSE,
   e_FOR, e_FUN, e_IF, e_NIL, e_OR,
   e_PRINT, e_RETURN, e_SUPER, e_THIS,
