@@ -20,8 +20,8 @@ public:
   VM(const Chunk &chunk);
 
   void repl();
-  void runFile(const std::string& fpath);
-  const InterpretResult interpret(const std::string& source);
+  void runFile(const std::string &fpath);
+  const InterpretResult interpret(const std::string &source);
 
 private:
   const InterpretResult run();

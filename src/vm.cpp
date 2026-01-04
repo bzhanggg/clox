@@ -8,9 +8,9 @@
 #endif
 
 #include <cstdint>
-#include <print>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <print>
 
 namespace clox {
 
@@ -24,12 +24,13 @@ void VM::repl() {
       std::cout << '\n';
       break;
     }
-    if (line.empty()) continue;
+    if (line.empty())
+      continue;
     interpret(line);
   }
 }
 
-void VM::runFile(const std::string& fpath) {
+void VM::runFile(const std::string &fpath) {
   std::string line;
   std::ifstream file{fpath};
 
@@ -42,7 +43,7 @@ void VM::runFile(const std::string& fpath) {
   }
 }
 
-const InterpretResult VM::interpret(const std::string& source) {
+const InterpretResult VM::interpret(const std::string &source) {
   compiler.compile(source);
   return INTERPRET_OK;
 }

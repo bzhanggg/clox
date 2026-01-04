@@ -2,7 +2,6 @@
 
 namespace clox {
 
-void Compiler::compile(const std::string& source) {
-}
+void Compiler::compile(const std::string &source) {}
 
-}
+} // namespace clox
