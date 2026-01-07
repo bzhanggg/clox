@@ -1,6 +1,8 @@
 add_subdirectory(lib)
 
 add_executable(clox
+    scanner.cpp
+    compiler.cpp
     vm.cpp
     main.cpp
 )

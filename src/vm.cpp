@@ -8,13 +8,45 @@
 #endif
 
 #include <cstdint>
+#include <fstream>
+#include <iostream>
 #include <print>
 
 namespace clox {
 
 VM::VM(const Chunk &chunk) : chunk{chunk}, ip{chunk.code.data()}, stack{} {}
 
-const InterpretResult VM::interpret() { return run(); }
+void VM::repl() {
+  std::string line;
+  for (;;) {
+    std::cout << "> " << std::flush;
+    if (!std::getline(std::cin, line)) {
+      std::cout << '\n';
+      break;
+    }
+    if (line.empty())
+      continue;
+    interpret(line);
+  }
+}
+
+void VM::runFile(const std::string &fpath) {
+  std::string line;
+  std::ifstream file{fpath};
+
+  if (file.is_open()) {
+    while (std::getline(file, line)) {
+      interpret(line);
+    }
+  } else {
+    std::cerr << "Error: Unable to open file " << fpath << std::endl;
+  }
+}
+
+const InterpretResult VM::interpret(const std::string &source) {
+  compiler.compile(source);
+  return INTERPRET_OK;
+}
 
 const InterpretResult VM::run() {
   for (;;) {
